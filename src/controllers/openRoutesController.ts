@@ -1,6 +1,7 @@
 import { Response, Request, NextFunction } from "express";
 import { Router } from "express";
 import { book_id_Validator } from "../middlewares/paramsValidator";
+import { Search_query_Validator } from "../middlewares/queryValidator";
 import bookService from "../services/bookServices";
 
 export const OpenRoutes = Router();
@@ -24,6 +25,7 @@ OpenRoutes.get(
 
 OpenRoutes.get(
   "/books/search",
+  Search_query_Validator,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const books = await bookService.searchBook(req.params.query);

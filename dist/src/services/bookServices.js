@@ -25,12 +25,19 @@ class bookService {
     }
     // get books from db with provided Search query
     async searchBook(query) {
-        return await bookQuery_1.default.searchBook(query);
+        const books = await bookQuery_1.default.searchBook(query);
+        if (books.length === 0) {
+            throw new errorClass_1.NOT_FOUND("no search result");
+        }
+        return books;
     }
     // add book to db with provided book data
     async addNewBook(bookData) {
         const lib_book_id = crypto_1.default.randomBytes(3).toString("hex");
-        return await bookQuery_1.default.addNewBook({ ...bookData, lib_book_id });
+        const isAdded = await bookQuery_1.default.addNewBook({ ...bookData, lib_book_id });
+        if (isAdded, length === 0) {
+            throw new errorClass_1.NOT_FOUND("no search result");
+        }
     }
     // update book in db with provided book fields
     async updateBook(newBookData, book_id) {

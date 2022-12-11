@@ -5,7 +5,7 @@ class authQuery {
   // find memeber is present in db or not
 
   async findMember(email: string) {
-    return await db("members").where({ email }).first("*");
+    return await db("members").where({ email }).returning("*");
   }
 
   //add new member in db

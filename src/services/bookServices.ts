@@ -1,11 +1,7 @@
 import crypto from "crypto";
 import bookQuery from "../db/dbQuerys/bookQuery";
 import { NOT_FOUND } from "../utils/errorClass";
-import {
-  addbookSchema,
-  dbBookResponse,
-  updatebookSchema,
-} from "../types/bookSchemaTypes";
+import { addbookSchema, updatebookSchema } from "../types/bookSchemaTypes";
 
 class bookService {
   // get all books from db
@@ -31,21 +27,29 @@ class bookService {
   // get books from db with provided Search query
 
   async searchBook(query: string) {
-    return await bookQuery.searchBook(query);
+    const books = await bookQuery.searchBook(query);
+
+    if (books.length === 0) {
+      throw new NOT_FOUND("no search result");
+    }
+    return books;
   }
 
   // add book to db with provided book data
 
   async addNewBook(bookData: addbookSchema) {
     const lib_book_id = crypto.randomBytes(3).toString("hex");
-    return await bookQuery.addNewBook({ ...bookData, lib_book_id });
+
+    const newBook = await bookQuery.addNewBook({ ...bookData, lib_book_id });
+
+    return newBook;
   }
 
   // update book in db with provided book fields
 
-  async updateBook(newBookData: updatebookSchema, book_id: string) {
+  async updateBook(book_id: string, newBookData: updatebookSchema) {
     const isbook = await bookQuery.findBook(book_id);
-    if (!isbook) {
+    if (isbook.length == 0) {
       throw new NOT_FOUND("book is not exist");
     }
     return await bookQuery.updateBook(book_id, newBookData);

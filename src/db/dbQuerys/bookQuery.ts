@@ -5,7 +5,7 @@ export default new (class bookQuery {
   // find book is present in db with book_id
 
   async findBook(id: string) {
-    const data = await db("books").where("book_id", id).first("*");
+    const data = await db("books").where("book_id", id).returning("*");
     return data;
   }
 

@@ -31,7 +31,7 @@ AdminRouter.put(
   updatebookSchemaValidator,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await bookService.updateBook(req.body, req.params.book_id);
+      await bookService.updateBook(req.params.book_id, req.body);
       res.status(200).json({
         status: "success",
         statusCode: 200,
