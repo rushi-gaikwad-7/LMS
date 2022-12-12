@@ -18,37 +18,36 @@ var ErrorMessage;
     ErrorMessage["IINTERNAL_SERVER_ERROR"] = "Unexpected internal server error.";
 })(ErrorMessage = exports.ErrorMessage || (exports.ErrorMessage = {}));
 class OperationalError extends Error {
-    constructor(name, statusCode, message, discription) {
+    constructor(name, statusCode, message) {
         super(message);
         Object.setPrototypeOf(this, new.target.prototype);
         this.name = name;
         this.statusCode = statusCode;
-        this.discription = discription;
         Error.captureStackTrace(this);
     }
 }
 exports.OperationalError = OperationalError;
 class BAD_REQUEST extends OperationalError {
-    constructor(discription = "") {
-        super("BAD_REQUEST", StatusCode.BAD_REQUEST, ErrorMessage.BAD_REQUEST, discription);
+    constructor(message = ErrorMessage.BAD_REQUEST) {
+        super("BAD_REQUEST", StatusCode.BAD_REQUEST, message);
     }
 }
 exports.BAD_REQUEST = BAD_REQUEST;
 class UNAUTHORIZED extends OperationalError {
-    constructor(discription = "") {
-        super("UNAUTHORIZED", StatusCode.UNAUTHORIZED, ErrorMessage.UNAUTHORIZED, discription);
+    constructor(message = ErrorMessage.UNAUTHORIZED) {
+        super("UNAUTHORIZED", StatusCode.UNAUTHORIZED, message);
     }
 }
 exports.UNAUTHORIZED = UNAUTHORIZED;
 class FORBIDDEN extends OperationalError {
-    constructor(discription = "") {
-        super("FORBIDDEN", StatusCode.FORBIDDEN, ErrorMessage.FORBIDDEN, discription);
+    constructor(message = ErrorMessage.FORBIDDEN) {
+        super("FORBIDDEN", StatusCode.FORBIDDEN, message);
     }
 }
 exports.FORBIDDEN = FORBIDDEN;
 class NOT_FOUND extends OperationalError {
-    constructor(discription = "") {
-        super("NOT_FOUND", StatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND, discription);
+    constructor(message = ErrorMessage.NOT_FOUND) {
+        super("NOT_FOUND", StatusCode.NOT_FOUND, message);
     }
 }
 exports.NOT_FOUND = NOT_FOUND;

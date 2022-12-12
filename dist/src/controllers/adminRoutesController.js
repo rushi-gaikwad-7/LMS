@@ -8,6 +8,7 @@ const express_1 = require("express");
 const bookServices_1 = __importDefault(require("../services/bookServices"));
 const memberServices_1 = __importDefault(require("../services/memberServices"));
 const schemaValidator_1 = require("../middlewares/schemaValidator");
+const paramsValidator_1 = require("../middlewares/paramsValidator");
 exports.AdminRouter = (0, express_1.Router)();
 exports.AdminRouter.post("/addnewbook", schemaValidator_1.bookSchemaValidator, async (req, res, next) => {
     try {
@@ -23,9 +24,9 @@ exports.AdminRouter.post("/addnewbook", schemaValidator_1.bookSchemaValidator, a
         next(error);
     }
 });
-exports.AdminRouter.put("/updatebook/:book_id", schemaValidator_1.updatebookSchemaValidator, async (req, res, next) => {
+exports.AdminRouter.put("/updatebook/:book_id", paramsValidator_1.uuid_id_Validator, schemaValidator_1.updatebookSchemaValidator, async (req, res, next) => {
     try {
-        await bookServices_1.default.updateBook(req.body, req.params.book_id);
+        await bookServices_1.default.updateBook(req.params.book_id, req.body);
         res.status(200).json({
             status: "success",
             statusCode: 200,
@@ -41,7 +42,8 @@ exports.AdminRouter.get("/members", async (req, res, next) => {
     try {
         const members = await memberServices_1.default.getAllmembers();
         res.status(200).json({
-            status: true,
+            status: "success",
+            statusCode: 200,
             message: "data fetched successfully",
             data: members,
         });

@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import Joi from "joi";
 import { BAD_REQUEST } from "../utils/errorClass";
 
-export const book_id_Validator = (
+export const uuid_id_Validator = (
   req: Request,
   res: Response,
   next: NextFunction

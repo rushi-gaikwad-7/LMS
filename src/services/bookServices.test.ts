@@ -33,12 +33,10 @@ describe("Testing for fething  books data", () => {
 
   test("if books data is empty in db send empty array of object", async () => {
     try {
-      mockquery_fn.resolves([{}]);
+      mockquery_fn.resolves([]);
       await bookServices.getAllbooks();
     } catch (error: any) {
-      expect(error.message).toEqual(
-        "We could not find the resource you requested."
-      );
+      expect(error.message).toEqual("fetching data is failed");
     }
   });
 });
@@ -72,9 +70,7 @@ describe("Testing for fething single book data", () => {
       mockquery_fn.resolves([]);
       await bookServices.getSingleBook("xyz");
     } catch (error: any) {
-      expect(error.message).toEqual(
-        "We could not find the resource you requested."
-      );
+      expect(error.message).toEqual("book is not exist");
     }
   });
 });
@@ -108,9 +104,7 @@ describe("Testing for  searching  books data with input query", () => {
       mockquery_fn.resolves([]);
       await bookServices.searchBook("xyz");
     } catch (error: any) {
-      expect(error.message).toEqual(
-        "We could not find the resource you requested."
-      );
+      expect(error.message).toEqual("no search result");
     }
   });
 });
@@ -172,9 +166,7 @@ describe("Testing for updating  book data", () => {
         pages: 0,
       });
     } catch (error: any) {
-      expect(error.message).toEqual(
-        "We could not find the resource you requested."
-      );
+      expect(error.message).toEqual("book is not exist");
     }
   });
 
@@ -206,5 +198,88 @@ describe("Testing for updating  book data", () => {
     });
 
     expect(response).toEqual([{ test_data: "test" }]);
+  });
+});
+
+//LOANBOOK FUNCTION TESTING
+
+describe("Testing of assigning book to logged  member", () => {
+  let mockquery_fn1: sinon.SinonStub<[query: string], Promise<unknown[]>>;
+  let mockquery_fn2: sinon.SinonStub<[book_id: string], Promise<unknown[]>>;
+  let mockquery_fn3: sinon.SinonStub<
+    [book_id: string, newBookData: updatebookSchema],
+    Promise<unknown[]>
+  >;
+  beforeEach(() => {
+    mockquery_fn1 = sinon.stub(booksQueries, "findBook");
+    mockquery_fn2 = sinon.stub(booksQueries, "loanBook");
+    mockquery_fn3 = sinon.stub(booksQueries, "updateBook");
+  });
+  afterEach(() => {
+    mockquery_fn1.restore();
+    mockquery_fn2.restore();
+    mockquery_fn3.restore();
+  });
+  test("if book is not present in db send empty array from db", async () => {
+    mockquery_fn1.resolves([]);
+    try {
+      await bookServices.loanBook("abc", "abc");
+    } catch (error: any) {
+      expect(error.message).toEqual("book not found");
+    }
+  });
+
+  test("check book is avilable for loan or not", async () => {
+    mockquery_fn1.resolves([{ availablity: false }]);
+    mockquery_fn2.resolves([{ test_data: "test" }]);
+    mockquery_fn3.resolves([{ test_data: "test" }]);
+    try {
+      await bookServices.loanBook("abc", "abc");
+    } catch (error: any) {
+      expect(error.message).toEqual("book is not avilable to loan");
+    }
+  });
+
+  test("check book is loaned or not", async () => {
+    mockquery_fn1.resolves([{ availablity: true }]);
+    mockquery_fn2.resolves([{ test_data: "test" }]);
+    mockquery_fn3.resolves([{ test_data: "test2" }]);
+
+    const response = await bookServices.loanBook("abc", "abc");
+    expect(response).toEqual([{ test_data: "test2" }]);
+  });
+});
+
+//TESTING FOR MEMBERBOOKS FUNCTION
+
+describe("Testing of getting  book of logged  member", () => {
+  let mockquery_fn: sinon.SinonStub<[member_id: string], Promise<unknown[]>>;
+  beforeEach(() => {
+    mockquery_fn = sinon.stub(booksQueries, "memberBooks");
+  });
+  afterEach(() => {
+    mockquery_fn.restore();
+  });
+  test("if books fetched successfully from db send array of object", async () => {
+    mockquery_fn.resolves([
+      {
+        test_data: "test1",
+      },
+    ]);
+    const response = await bookServices.memberBooks("xyz");
+    expect(response).toEqual([
+      {
+        test_data: "test1",
+      },
+    ]);
+  });
+
+  test("if books data is empty in db send empty array of object", async () => {
+    try {
+      mockquery_fn.resolves([]);
+      await bookServices.memberBooks("xyz");
+    } catch (error: any) {
+      expect(error.message).toEqual("fetching data is failed");
+    }
   });
 });

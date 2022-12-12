@@ -7,7 +7,7 @@ const connection_1 = __importDefault(require("../connection"));
 exports.default = new (class bookQuery {
     // find book is present in db with book_id
     async findBook(id) {
-        const data = await (0, connection_1.default)("books").where("book_id", id).first("*");
+        const data = await (0, connection_1.default)("books").where("book_id", id).returning("*");
         return data;
     }
     // add new book into db

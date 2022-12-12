@@ -6,7 +6,7 @@ import { signInAccessToken } from "../utils/jwt";
 
 class authService {
   //register new member is db
-  
+
   async addNewMember(body: userBody) {
     const { name, password, email, role } = body;
 
@@ -15,12 +15,14 @@ class authService {
       throw new FORBIDDEN("user already exist");
     }
     const hash_key = await createHashPassword(password);
-    await authQuery.addNewMember({
-      name,
-      email,
-      hash_key,
-      role,
-    });
+    if (hash_key) {
+      await authQuery.addNewMember({
+        name,
+        email,
+        hash_key,
+        role,
+      });
+    }
   }
 
   //login  member with correct credientials
@@ -29,10 +31,10 @@ class authService {
     const { password, email } = userData;
 
     const member: any = await authQuery.findMember(email);
-    if (!member) {
+    if (member.length === 0) {
       throw new NOT_FOUND("user not found");
     }
-    const { role, member_id, hash_key } = member;
+    const { role, member_id, hash_key } = member[0];
     const verifyPassword = await checkPassword(password, hash_key);
     if (!verifyPassword) {
       throw new UNAUTHORIZED("invalid password or email");

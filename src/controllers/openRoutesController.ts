@@ -1,6 +1,6 @@
 import { Response, Request, NextFunction } from "express";
 import { Router } from "express";
-import { book_id_Validator } from "../middlewares/paramsValidator";
+import { uuid_id_Validator } from "../middlewares/paramsValidator";
 import { Search_query_Validator } from "../middlewares/queryValidator";
 import bookService from "../services/bookServices";
 
@@ -43,7 +43,7 @@ OpenRoutes.get(
 
 OpenRoutes.get(
   "/books/:book_id",
-  book_id_Validator,
+  uuid_id_Validator,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const books = await bookService.getSingleBook(req.params.book_id);

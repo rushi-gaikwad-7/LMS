@@ -1,19 +1,25 @@
 import { Response, Request, NextFunction, Router } from "express";
+import { uuid_id_Validator } from "../middlewares/paramsValidator";
 import bookService from "../services/bookServices";
-
+import { VerifyAccessToken } from "../utils/jwt";
 export const MemberRoutes = Router();
 
 MemberRoutes.post(
-  "/loanbook",
+  "/loanbook/:book_id",
+  uuid_id_Validator,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await bookService.loanBook(req.body.member_id, req.body.book_id);
-      res.status(201).json({
-        status: "success",
-        statusCode: 201,
-        message: "book loaned successfully 😊 👌",
-        data: [],
-      });
+      const decoded: any = await VerifyAccessToken(req.cookies.access_token);
+      if (decoded) {
+        const member_id: any = decoded.member_id;
+        await bookService.loanBook(req.params.book_id, member_id);
+        res.status(201).json({
+          status: "success",
+          statusCode: 201,
+          message: "book loaned successfully 😊 👌",
+          data: [],
+        });
+      }
     } catch (error) {
       next(error);
     }
@@ -22,6 +28,7 @@ MemberRoutes.post(
 
 MemberRoutes.get(
   "/books/:member_id",
+  uuid_id_Validator,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const books = await bookService.memberBooks(req.params.member_id);

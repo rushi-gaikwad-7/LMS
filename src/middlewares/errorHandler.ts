@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { ErrorMessage, OperationalError } from "../utils/errorClass";
 
-
 export const errorHandler = (
   error: OperationalError,
   req: Request,
@@ -13,7 +12,6 @@ export const errorHandler = (
       status: "error",
       statusCode: error.statusCode,
       message: error.message,
-      error_detail: error.discription,
     });
   } else {
     // log.error(error);
@@ -22,7 +20,6 @@ export const errorHandler = (
       status: "error",
       statusCode: 500,
       message: "Something went wrong",
-      error_detail: ErrorMessage.IINTERNAL_SERVER_ERROR,
     });
   }
 };

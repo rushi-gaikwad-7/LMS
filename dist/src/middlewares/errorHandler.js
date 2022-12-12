@@ -8,7 +8,6 @@ const errorHandler = (error, req, res, next) => {
             status: "error",
             statusCode: error.statusCode,
             message: error.message,
-            error_detail: error.discription,
         });
     }
     else {
@@ -17,7 +16,6 @@ const errorHandler = (error, req, res, next) => {
             status: "error",
             statusCode: 500,
             message: "Something went wrong",
-            error_detail: errorClass_1.ErrorMessage.IINTERNAL_SERVER_ERROR,
         });
     }
 };

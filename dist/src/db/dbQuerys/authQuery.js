@@ -7,7 +7,7 @@ const connection_1 = __importDefault(require("../connection"));
 class authQuery {
     // find memeber is present in db or not
     async findMember(email) {
-        return await (0, connection_1.default)("members").where({ email }).first("*");
+        return await (0, connection_1.default)("members").where({ email }).returning("*");
     }
     //add new member in db
     async addNewMember(payload) {

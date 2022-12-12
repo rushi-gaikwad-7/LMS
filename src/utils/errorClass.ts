@@ -15,60 +15,33 @@ export enum ErrorMessage {
 
 export class OperationalError extends Error {
   public name: string;
-  public discription: string;
   public statusCode: StatusCode;
-  constructor(
-    name: string,
-    statusCode: StatusCode,
-    message: string,
-    discription: string
-  ) {
+  constructor(name: string, statusCode: StatusCode, message: string) {
     super(message);
     Object.setPrototypeOf(this, new.target.prototype);
     this.name = name;
     this.statusCode = statusCode;
-    this.discription = discription;
     Error.captureStackTrace(this);
   }
 }
 
 export class BAD_REQUEST extends OperationalError {
-  constructor(discription = "") {
-    super(
-      "BAD_REQUEST",
-      StatusCode.BAD_REQUEST,
-      ErrorMessage.BAD_REQUEST,
-      discription
-    );
+  constructor(message: string = ErrorMessage.BAD_REQUEST) {
+    super("BAD_REQUEST", StatusCode.BAD_REQUEST, message);
   }
 }
 export class UNAUTHORIZED extends OperationalError {
-  constructor(discription = "") {
-    super(
-      "UNAUTHORIZED",
-      StatusCode.UNAUTHORIZED,
-      ErrorMessage.UNAUTHORIZED,
-      discription
-    );
+  constructor(message: string = ErrorMessage.UNAUTHORIZED) {
+    super("UNAUTHORIZED", StatusCode.UNAUTHORIZED, message);
   }
 }
 export class FORBIDDEN extends OperationalError {
-  constructor(discription = "") {
-    super(
-      "FORBIDDEN",
-      StatusCode.FORBIDDEN,
-      ErrorMessage.FORBIDDEN,
-      discription
-    );
+  constructor(message: string = ErrorMessage.FORBIDDEN) {
+    super("FORBIDDEN", StatusCode.FORBIDDEN, message);
   }
 }
 export class NOT_FOUND extends OperationalError {
-  constructor(discription = "") {
-    super(
-      "NOT_FOUND",
-      StatusCode.NOT_FOUND,
-      ErrorMessage.NOT_FOUND,
-      discription
-    );
+  constructor(message: string = ErrorMessage.NOT_FOUND) {
+    super("NOT_FOUND", StatusCode.NOT_FOUND, message);
   }
 }

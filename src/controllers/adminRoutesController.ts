@@ -6,6 +6,7 @@ import {
   bookSchemaValidator,
   updatebookSchemaValidator,
 } from "../middlewares/schemaValidator";
+import { uuid_id_Validator } from "../middlewares/paramsValidator";
 
 export const AdminRouter = Router();
 
@@ -28,6 +29,7 @@ AdminRouter.post(
 );
 AdminRouter.put(
   "/updatebook/:book_id",
+  uuid_id_Validator,
   updatebookSchemaValidator,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -49,7 +51,8 @@ AdminRouter.get(
     try {
       const members = await memberService.getAllmembers();
       res.status(200).json({
-        status: true,
+        status: "success",
+        statusCode: 200,
         message: "data fetched successfully",
         data: members,
       });

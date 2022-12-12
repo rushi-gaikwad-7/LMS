@@ -10,16 +10,16 @@ class bookService {
     // get all books from db
     async getAllbooks() {
         const books = await bookQuery_1.default.getAllbooks();
-        if (books.length > 0) {
-            return books;
+        if (books.length === 0) {
+            throw new errorClass_1.NOT_FOUND("fetching data is failed");
         }
-        throw new errorClass_1.NOT_FOUND("books not found");
+        return books;
     }
     // get single books from db with provided book_id
     async getSingleBook(book_id) {
         const book = await bookQuery_1.default.findBook(book_id);
-        if (book === undefined) {
-            throw new errorClass_1.NOT_FOUND("book not found");
+        if (book.length === 0) {
+            throw new errorClass_1.NOT_FOUND("book is not exist");
         }
         return book;
     }
@@ -34,32 +34,43 @@ class bookService {
     // add book to db with provided book data
     async addNewBook(bookData) {
         const lib_book_id = crypto_1.default.randomBytes(3).toString("hex");
-        const isAdded = await bookQuery_1.default.addNewBook({ ...bookData, lib_book_id });
-        if (isAdded, length === 0) {
-            throw new errorClass_1.NOT_FOUND("no search result");
-        }
+        const newBook = await bookQuery_1.default.addNewBook({ ...bookData, lib_book_id });
+        return newBook;
     }
     // update book in db with provided book fields
-    async updateBook(newBookData, book_id) {
+    async updateBook(book_id, newBookData) {
         const isbook = await bookQuery_1.default.findBook(book_id);
-        if (!isbook) {
+        if (isbook.length == 0) {
             throw new errorClass_1.NOT_FOUND("book is not exist");
         }
         return await bookQuery_1.default.updateBook(book_id, newBookData);
     }
     // assign book to memeber
     async loanBook(book_id, member_id) {
-        await bookQuery_1.default.loanBook({
-            book_id,
-            member_id,
-        });
-        return await bookQuery_1.default.updateBook(book_id, {
-            availablity: false,
-        });
+        const book = await bookQuery_1.default.findBook(book_id);
+        if (book.length === 0) {
+            throw new errorClass_1.NOT_FOUND("book not found");
+        }
+        if (!book[0].availablity) {
+            throw new errorClass_1.NOT_FOUND("book is not avilable to loan");
+        }
+        else {
+            await bookQuery_1.default.loanBook({
+                book_id,
+                member_id,
+            });
+            return await bookQuery_1.default.updateBook(book_id, {
+                availablity: false,
+            });
+        }
     }
     //get all boooks of member with member_id
     async memberBooks(member_id) {
-        return await bookQuery_1.default.memberBooks(member_id);
+        const books = await bookQuery_1.default.memberBooks(member_id);
+        if (books.length === 0) {
+            throw new errorClass_1.NOT_FOUND("fetching data is failed");
+        }
+        return books;
     }
 }
 exports.default = new bookService();
