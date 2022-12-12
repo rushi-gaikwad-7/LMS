@@ -37,7 +37,7 @@ exports.OpenRoutes.get("/books/search", queryValidator_1.Search_query_Validator,
         next(error);
     }
 });
-exports.OpenRoutes.get("/books/:book_id", paramsValidator_1.uuid_id_Validator, async (req, res, next) => {
+exports.OpenRoutes.get("/books/:book_id", paramsValidator_1.book_id_validator, async (req, res, next) => {
     try {
         const books = await bookServices_1.default.getSingleBook(req.params.book_id);
         res.status(200).send({

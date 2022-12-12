@@ -9,7 +9,7 @@ const errorClass_1 = require("../utils/errorClass");
 const Search_query_Validator = (req, res, next) => {
     try {
         const schema = joi_1.default.object({
-            query: joi_1.default.string().max(25).min(3).required(),
+            query: joi_1.default.string().max(20).min(3).required(),
         });
         const result = schema.validate(req.query);
         if (result.error) {

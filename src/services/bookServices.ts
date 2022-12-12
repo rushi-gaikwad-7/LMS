@@ -6,7 +6,6 @@ import {
   dbBookResponse,
   updatebookSchema,
 } from "../types/bookSchemaTypes";
-import { bool } from "joi";
 
 class bookService {
   // get all books from db
@@ -82,7 +81,6 @@ class bookService {
   //get all boooks of member with member_id
 
   async memberBooks(member_id: string) {
-    
     const books = await bookQuery.memberBooks(member_id);
     if (books.length === 0) {
       throw new NOT_FOUND("fetching data is failed");

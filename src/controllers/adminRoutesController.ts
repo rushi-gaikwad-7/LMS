@@ -6,7 +6,7 @@ import {
   bookSchemaValidator,
   updatebookSchemaValidator,
 } from "../middlewares/schemaValidator";
-import { uuid_id_Validator } from "../middlewares/paramsValidator";
+import { book_id_validator } from "../middlewares/paramsValidator";
 
 export const AdminRouter = Router();
 
@@ -29,7 +29,7 @@ AdminRouter.post(
 );
 AdminRouter.put(
   "/updatebook/:book_id",
-  uuid_id_Validator,
+  book_id_validator,
   updatebookSchemaValidator,
   async (req: Request, res: Response, next: NextFunction) => {
     try {

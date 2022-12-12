@@ -16,13 +16,14 @@ class authService {
             throw new errorClass_1.FORBIDDEN("user already exist");
         }
         const hash_key = await (0, bcrypt_1.createHashPassword)(password);
-        if ()
-            await authQuery_1.default.addNewMember({
+        if (hash_key) {
+            return await authQuery_1.default.addNewMember({
                 name,
                 email,
                 hash_key,
                 role,
             });
+        }
     }
     //login  member with correct credientials
     async login(userData) {

@@ -1,12 +1,15 @@
 import { Response, Request, NextFunction, Router } from "express";
-import { uuid_id_Validator } from "../middlewares/paramsValidator";
+import {
+  book_id_validator,
+  member_id_validator,
+} from "../middlewares/paramsValidator";
 import bookService from "../services/bookServices";
 import { VerifyAccessToken } from "../utils/jwt";
 export const MemberRoutes = Router();
 
 MemberRoutes.post(
   "/loanbook/:book_id",
-  uuid_id_Validator,
+  book_id_validator,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const decoded: any = await VerifyAccessToken(req.cookies.access_token);
@@ -28,7 +31,7 @@ MemberRoutes.post(
 
 MemberRoutes.get(
   "/books/:member_id",
-  uuid_id_Validator,
+  member_id_validator,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const books = await bookService.memberBooks(req.params.member_id);

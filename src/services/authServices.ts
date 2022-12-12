@@ -16,7 +16,7 @@ class authService {
     }
     const hash_key = await createHashPassword(password);
     if (hash_key) {
-      await authQuery.addNewMember({
+      return await authQuery.addNewMember({
         name,
         email,
         hash_key,

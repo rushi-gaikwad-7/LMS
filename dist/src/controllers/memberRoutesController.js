@@ -9,7 +9,7 @@ const paramsValidator_1 = require("../middlewares/paramsValidator");
 const bookServices_1 = __importDefault(require("../services/bookServices"));
 const jwt_1 = require("../utils/jwt");
 exports.MemberRoutes = (0, express_1.Router)();
-exports.MemberRoutes.post("/loanbook/:book_id", paramsValidator_1.uuid_id_Validator, async (req, res, next) => {
+exports.MemberRoutes.post("/loanbook/:book_id", paramsValidator_1.book_id_validator, async (req, res, next) => {
     try {
         const decoded = await (0, jwt_1.VerifyAccessToken)(req.cookies.access_token);
         if (decoded) {
@@ -27,7 +27,7 @@ exports.MemberRoutes.post("/loanbook/:book_id", paramsValidator_1.uuid_id_Valida
         next(error);
     }
 });
-exports.MemberRoutes.get("/books/:member_id", paramsValidator_1.uuid_id_Validator, async (req, res, next) => {
+exports.MemberRoutes.get("/books/:member_id", paramsValidator_1.member_id_validator, async (req, res, next) => {
     try {
         const books = await bookServices_1.default.memberBooks(req.params.member_id);
         res.status(200).json({

@@ -9,7 +9,7 @@ export const Search_query_Validator = (
 ) => {
   try {
     const schema = Joi.object({
-      query: Joi.string().max(25).min(3).required(),
+      query: Joi.string().max(20).min(3).required(),
     });
     const result = schema.validate(req.query);
 
