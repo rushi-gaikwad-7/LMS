@@ -151,9 +151,58 @@ describe("Testing length of book_id length", (): void => {
         test_data: "test1",
       },
     ]);
-    const response = await request(MockApp).get("/api/v1/books/");
+    const response = await request(MockApp).get("/api/v1/books/ahshshdb");
     expect(response.body).toEqual({
-      message: "books fetched successfully",
+      message: '"book_id" length must be 36 characters long',
+      status: "error",
+      statusCode: 400,
+    });
+  });
+
+  test("check uuid is in correct format or not ", async () => {
+    mockquery_fn.resolves([
+      {
+        test: "test",
+      },
+    ]);
+    const response = await request(MockApp).get(
+      "/api/v1/books/hfgrebdgsjeyhfrgsbfgryujfhgsvekshdeg"
+    );
+    expect(response.body).toEqual({
+      message: '"book_id" must be a valid GUID',
+      status: "error",
+      statusCode: 400,
+    });
+  });
+
+  test("throw error if result is empty array", async () => {
+    mockquery_fn.resolves([]);
+    const response = await request(MockApp).get(
+      "/api/v1/books/8cc005d6-0ccd-485c-97e8-f212c16f876d"
+    );
+    expect(response.body).toEqual({
+      message: "book is not exist",
+      status: "error",
+      statusCode: 404,
+    });
+  });
+
+  test("throw error if result is empty array", async () => {
+    mockquery_fn.resolves([
+      {
+        test: "test",
+      },
+    ]);
+    const response = await request(MockApp).get(
+      "/api/v1/books/8cc005d6-0ccd-485c-97e8-f212c16f876d"
+    );
+    expect(response.body).toEqual({
+      data: [
+        {
+          test: "test",
+        },
+      ],
+      message: "book fetched successfully",
       status: "success",
       statusCode: 200,
     });

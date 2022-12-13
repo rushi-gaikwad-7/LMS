@@ -2,8 +2,6 @@ import { NextFunction, Request, Response } from "express";
 import Joi from "joi";
 import { BAD_REQUEST } from "../utils/errorClass";
 
-
-
 export const memberSchemaValidator = (
   req: Request,
   res: Response,
@@ -11,8 +9,14 @@ export const memberSchemaValidator = (
 ) => {
   try {
     const schema = Joi.object({
-      name: Joi.string().min(2).max(15).required(),
-      role: Joi.string().optional(),
+      name: Joi.string()
+        .min(2)
+        .max(15)
+        .required()
+        .regex(/^[a-zA-Z, ]*$/, "Alphanumerics"),
+      role: Joi.string()
+        .optional()
+        .regex(/^[a-zA-Z, ]*$/, "Alphanumerics"),
       email: Joi.string()
         .required()
         .email({
@@ -64,12 +68,24 @@ export const bookSchemaValidator = (
 ) => {
   try {
     const schema = Joi.object({
-      title: Joi.string().min(2).max(15).required(),
-      author: Joi.string().min(2).max(15).required(),
-      category: Joi.string().min(2).max(15).required(),
+      title: Joi.string().min(3).max(15).required(),
+      author: Joi.string()
+        .min(3)
+        .max(15)
+        .required()
+        .regex(/^[a-zA-Z, ]*$/, "Alphanumerics"),
+      category: Joi.string()
+        .min(3)
+        .max(15)
+        .required()
+        .regex(/^[a-zA-Z, ]*$/, "Alphanumerics"),
       publish_year: Joi.number().required(),
       rating: Joi.number().required().max(10).min(1),
-      language: Joi.string().min(2).max(15).required(),
+      language: Joi.string()
+        .min(3)
+        .max(15)
+        .required()
+        .regex(/^[a-zA-Z, ]*$/, "Alphanumerics"),
       pages: Joi.number().required(),
       cover: Joi.string().optional(),
     });
@@ -88,13 +104,25 @@ export const updatebookSchemaValidator = (
   res: Response,
   next: NextFunction
 ) => {
-  try { 
+  try {
     const schema = Joi.object({
-      title: Joi.string().min(2).max(15).optional(),
-      author: Joi.string().min(2).max(15).optional(),
-      category: Joi.string().min(2).max(15).optional(),
+      title: Joi.string().min(3).max(15).optional(),
+      author: Joi.string()
+        .min(2)
+        .max(15)
+        .optional()
+        .regex(/^[a-zA-Z, ]*$/, "Alphanumerics"),
+      category: Joi.string()
+        .min(3)
+        .max(15)
+        .optional()
+        .regex(/^[a-zA-Z, ]*$/, "Alphanumerics"),
       publish_year: Joi.number().optional(),
-      language: Joi.string().min(2).max(15).optional(),
+      language: Joi.string()
+        .min(2)
+        .max(15)
+        .optional()
+        .regex(/^[a-zA-Z, ]*$/, "Alphanumerics"),
       rating: Joi.number().optional().max(10).min(1),
       pages: Joi.number().optional(),
       cover: Joi.string().optional(),

@@ -9,7 +9,7 @@ export const checkAdminAccess = async (
 ) => {
   try {
     if (!req.cookies.access_token) {
-      throw new UNAUTHORIZED(`please login to access${req.originalUrl}`);
+      throw new UNAUTHORIZED("please login to access");
     }
     const decoded: any = await VerifyAccessToken(req.cookies.access_token);
     if (decoded.role === "admin") {

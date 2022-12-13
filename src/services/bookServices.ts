@@ -1,6 +1,6 @@
 import crypto from "crypto";
 import bookQuery from "../db/dbQuerys/bookQuery";
-import { NOT_FOUND } from "../utils/errorClass";
+import { IINTERNAL_SERVER_ERROR, NOT_FOUND } from "../utils/errorClass";
 import {
   addbookSchema,
   dbBookResponse,
@@ -44,7 +44,9 @@ class bookService {
   async addNewBook(bookData: addbookSchema) {
     const lib_book_id = crypto.randomBytes(3).toString("hex");
     const newBook = await bookQuery.addNewBook({ ...bookData, lib_book_id });
-
+    if (newBook.length === 0) {
+      throw new IINTERNAL_SERVER_ERROR();
+    }
     return newBook;
   }
 

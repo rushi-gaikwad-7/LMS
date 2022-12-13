@@ -31,7 +31,9 @@ describe("Testing for fething  books data", () => {
       mockquery_fn.resolves([]);
       await memberServices.getAllmembers();
     } catch (error: any) {
-      expect(error.message).toEqual("fetching data is failed");
+      expect(error.message).toEqual(
+        "We could not find the resource you requested."
+      );
     }
   });
 });

@@ -45,3 +45,9 @@ export class NOT_FOUND extends OperationalError {
     super("NOT_FOUND", StatusCode.NOT_FOUND, message);
   }
 }
+
+export class IINTERNAL_SERVER_ERROR extends OperationalError {
+  constructor(message: string = ErrorMessage.IINTERNAL_SERVER_ERROR) {
+    super("IINTERNAL_SERVER_ERROR", StatusCode.IINTERNAL_SERVER_ERROR, message);
+  }
+}
