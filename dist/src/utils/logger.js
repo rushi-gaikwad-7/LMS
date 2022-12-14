@@ -10,9 +10,9 @@ const formatOut = (0, bunyan_format_1.default)({ outputMode: "short" });
 exports.logger = bunyan_1.default.createLogger({
     name: "LMS",
     serializers: {
-        req: require("bunyan-express-serializer"),
-        res: bunyan_1.default.stdSerializers.res,
         err: bunyan_1.default.stdSerializers.err,
+        res: bunyan_1.default.stdSerializers.res,
+        req: bunyan_1.default.stdSerializers.req,
     },
     stream: formatOut,
     level: "info",

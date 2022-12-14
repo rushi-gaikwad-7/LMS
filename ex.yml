@@ -9,19 +9,15 @@ servers:
 
 # BOOKS API'S
 tags:
-  - name: GET BOOKS
-    description: FETCH BOOKS DATA
-  - name: ADMIN
-    description: ADD NEW BOOK OR UPDATE EXIESTING BOOK AND GET ALL MEMBERS DETAILS
-  - name: MEMBER
-    description: LOAN BOOK OR GET LOANED BOOKS DATA
-  - name: AUTHENTICATION
-    description: LOGIN OR REGISTER NEW MEMBER
+  - name: Books
+    description: ALL BOOKS API
+  - name: Users
+    description: Members API
 paths:
-  /api/v1/books:
+  /books:
     get:
       tags:
-        - GET BOOKS
+        - Books
       summary: Returns all books.
       description: A list of all books that present in the library
       responses:
@@ -34,19 +30,19 @@ paths:
                 items:
                   $ref: "#/components/schemas/books"
 
-  /api/v1/books/{book_id}:
+  /books/all/{bookId}:
     get:
       tags:
-        - GET BOOKS
+        - Books
       summary: Returns Requested Single Book
       description: Find The Requested Book By Bookid
       parameters:
         - in: path
-          name: book_id
+          name: bookId
           description: any text results found,then return results
           required: true
           schema:
-            type: string
+            type: number
       responses:
         "200":
           description: Success RESPONSE
@@ -61,14 +57,14 @@ paths:
         "500":
           description: INTERNAL SERVER ERROR
 
-  /api/v1/books/search:
+  /books/search:
     get:
       tags:
-        - GET BOOKS
+        - Books
       summary: Returns All Search Results Books
       description: Find The Requested Books By Any Text
       parameters:
-        - name: query
+        - name: q
           in: query
           description: any text results found,then return results
           required: true
@@ -88,10 +84,10 @@ paths:
         "500":
           description: INTERNAL SERVER ERROR
 
-  /api/v1/admin/addnewbook:
+  /books/admin/create:
     post:
       tags:
-        - ADMIN
+        - Books
       summary: Add New Book To The Library
       description: A Successl request will add new book to the library
       parameters:
@@ -142,18 +138,16 @@ paths:
           description: PAGE NOT FOUND
         "500":
           description: INTERNAL SERVER ERROR
-      security:
-        - access_token: []
 
-  /api/v1/admin/updatebook/{book_id}:
+  /books/admin/update/{bookId}:
     put:
       tags:
-        - ADMIN
+        - Books
       summary: Update Book In The Library
       description: A Successl request will update new book to the library
       parameters:
         - in: path
-          name: book_id
+          name: bookId
         - in: body
           name: user
           description: The user to create.
@@ -191,17 +185,16 @@ paths:
           description: PAGE NOT FOUND
         "500":
           description: INTERNAL SERVER ERROR
-      security:
-        - access_token: []
-  /api/v1/member/loanbook/{book_id}:
+
+  /books/purchase/book:
     post:
       tags:
-        - MEMBER
+        - Books
       summary: Purchase A Book From The Library
       description: User Will Purchase A Book
       parameters:
-        - in: path
-          name: book_id
+        - in: body
+          name: user
           description: Purchasing A Book
           schema:
             type: object
@@ -227,10 +220,10 @@ paths:
         "500":
           description: INTERNAL SERVER ERROR
 
-  /api/v1/auth/register:
+  /user/register:
     post:
       tags:
-        - AUTHENTICATION
+        - USERS
       summary: Registering The User In The DataBase
       description: User Will Be Registered In Library,After Successl Request
       parameters:
@@ -268,10 +261,10 @@ paths:
         "500":
           description: INTERNAL SERVER ERROR
 
-  /api/v1/auth/login:
+  /user/login:
     post:
       tags:
-        - AUTHENTICATION
+        - USERS
       summary: User Login
       description: User Will Be Get Access To Library,After Success Request
       parameters:

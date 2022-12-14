@@ -11,29 +11,31 @@ import {
 class bookService {
   // get all books from db
 
-  async getAllbooks() {
+  async getAllbooks(loggerForSearchbooks?: bunyan) {
     const books = await bookQuery.getAllbooks();
     if (books.length === 0) {
       throw new NOT_FOUND("fetching data is failed");
     }
+    loggerForSearchbooks?.error("logged in service");
     return books;
   }
 
   // get single books from db with provided book_id
 
-  async getSingleBook(book_id: string) {
+  async getSingleBook(book_id: string, loggerForSearchbooks?: bunyan) {
     const book = await bookQuery.findBook(book_id);
     if (book.length === 0) {
-      throw new NOT_FOUND("book is not exist");
+      const error = new NOT_FOUND("book is not exist");
+      loggerForSearchbooks?.error({ err: error });
+      throw error;
     }
+    loggerForSearchbooks?.info({ message: "books fetched from db" });
     return book;
   }
 
   // get books from db with provided Search query
 
   async searchBook(query: any, loggerForSearchbooks?: bunyan) {
-    loggerForSearchbooks?.info("in the searchBokk");
-
     const books = await bookQuery.searchBook(query);
     if (books.length === 0) {
       throw new NOT_FOUND("no search result");

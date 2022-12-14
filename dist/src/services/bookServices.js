@@ -8,24 +8,27 @@ const bookQuery_1 = __importDefault(require("../db/dbQuerys/bookQuery"));
 const errorClass_1 = require("../utils/errorClass");
 class bookService {
     // get all books from db
-    async getAllbooks() {
+    async getAllbooks(loggerForSearchbooks) {
         const books = await bookQuery_1.default.getAllbooks();
         if (books.length === 0) {
             throw new errorClass_1.NOT_FOUND("fetching data is failed");
         }
+        loggerForSearchbooks === null || loggerForSearchbooks === void 0 ? void 0 : loggerForSearchbooks.error("logged in service");
         return books;
     }
     // get single books from db with provided book_id
-    async getSingleBook(book_id) {
+    async getSingleBook(book_id, loggerForSearchbooks) {
         const book = await bookQuery_1.default.findBook(book_id);
         if (book.length === 0) {
-            throw new errorClass_1.NOT_FOUND("book is not exist");
+            const error = new errorClass_1.NOT_FOUND("book is not exist");
+            loggerForSearchbooks === null || loggerForSearchbooks === void 0 ? void 0 : loggerForSearchbooks.error({ err: error });
+            throw error;
         }
+        loggerForSearchbooks === null || loggerForSearchbooks === void 0 ? void 0 : loggerForSearchbooks.info({ message: "books fetched from db" });
         return book;
     }
     // get books from db with provided Search query
     async searchBook(query, loggerForSearchbooks) {
-        loggerForSearchbooks === null || loggerForSearchbooks === void 0 ? void 0 : loggerForSearchbooks.info("in the searchBokk");
         const books = await bookQuery_1.default.searchBook(query);
         if (books.length === 0) {
             throw new errorClass_1.NOT_FOUND("no search result");

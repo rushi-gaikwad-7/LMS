@@ -20,7 +20,6 @@ exports.default = new (class bookQuery {
     }
     //search books with the text query
     async searchBook(query) {
-        console.log(query);
         return await (0, connection_1.default)("books")
             .where(connection_1.default.raw(`(LOWER(books.title)) ILIKE ?`, [`%${query}%`]))
             .orWhere(connection_1.default.raw(`LOWER(books.category) ILIKE ?`, [`%${query}%`]))
