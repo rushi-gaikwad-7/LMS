@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OpenRoutes = void 0;
 const express_1 = require("express");
-const uuid_1 = require("uuid");
+const crypto_1 = __importDefault(require("crypto"));
 const paramsValidator_1 = require("../middlewares/paramsValidator");
 const queryValidator_1 = require("../middlewares/queryValidator");
 const bookServices_1 = __importDefault(require("../services/bookServices"));
@@ -26,7 +26,8 @@ exports.OpenRoutes.get("/books", async (req, res, next) => {
     }
 });
 exports.OpenRoutes.get("/books/search", queryValidator_1.Search_query_Validator, async (req, res, next) => {
-    const loggerForSearchbooks = logger_1.logger.child({ reqId: (0, uuid_1.v4)() }, true);
+    const reqId = crypto_1.default.randomBytes(3).toString("hex");
+    const loggerForSearchbooks = logger_1.logger.child({ reqId }, true);
     try {
         const query = req.query.query;
         const books = await bookServices_1.default.searchBook(query, loggerForSearchbooks);

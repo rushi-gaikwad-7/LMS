@@ -1,0 +1,104 @@
+openapi: 3.0.3
+info:
+  title: LMS - OpenAPI 3.0
+  description: |-
+    This is a sample Library Management System for offline  Library.
+  version: 1.0.11
+servers:
+  - url: http://localhost:8080
+tags:
+  - name: books
+    description: Everything about books
+  - name: Authentication
+    description: To Access the features of lms 
+  - name: member
+   description: Everything about members
+
+paths:
+  /api/v1/books:
+    get:
+      tags:
+        - books
+      summary: Returns all books.
+      description: A list of all books that is present  in library.
+      responses:
+        200: # status code
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/books"
+
+
+  /api/v1/books/search:
+    get:
+      tags:
+        - books
+      summary: Returns all books.
+      description: A list of all books that is present  in library.
+      operationId: getBooksBySearch
+      parameters: 
+       - name: query
+         in: query
+         description : name of book, name of author, name of category.
+         required: true
+         schema: 
+           type: string
+      responses:
+        200: # status code
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/books"
+
+
+
+components:
+  schemas:
+    books:
+      type: object
+      properties:
+        book_id:
+          type: string
+        title:
+          type: string
+        author:
+          type: string
+        category:
+          type: string
+        availablity:
+          type: boolean
+        publish_year:
+          type: integer
+        rating:
+          type: integer
+        lib_book_id: 
+          type: string
+        language:
+          type: string
+        pages: 
+          type: integer
+        cover: 
+          type: string
+        created_at: 
+          type: Date
+        updated_at: 
+          type: Date
+      example:
+        book_id: 8cc005d6-0ccd-485c-97e8-f212c16f876d
+        title: last game
+        author: rakshat
+        category:  novel
+        availablity: false
+        publish_year: 1998,
+        rating: 8
+        lib_book_id: 2b6076
+        language:  english
+        pages: 130
+        cover: https://m.media-amazon.com/images/I/51L57joruVL.jpg 
+        created_at: 2022-12-07T16:08:09.755Z
+        updated_at: 2022-12-07T16:08:09.755Z
+

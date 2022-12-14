@@ -1,6 +1,6 @@
 import { Response, Request, NextFunction } from "express";
 import { Router } from "express";
-import { v4 as uuid } from "uuid";
+import crypto from "crypto";
 import { book_id_validator } from "../middlewares/paramsValidator";
 import { Search_query_Validator } from "../middlewares/queryValidator";
 import bookService from "../services/bookServices";
@@ -29,7 +29,8 @@ OpenRoutes.get(
   "/books/search",
   Search_query_Validator,
   async (req: Request, res: Response, next: NextFunction) => {
-    const loggerForSearchbooks = logger.child({ reqId: uuid() }, true);
+    const reqId = crypto.randomBytes(3).toString("hex");
+    const loggerForSearchbooks = logger.child({ reqId }, true);
     try {
       const query = req.query.query;
       const books = await bookService.searchBook(query, loggerForSearchbooks);

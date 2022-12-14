@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import swaggerUi from "swagger-ui-express";
+import YAML from "yamljs";
 import { errorHandler } from "./middlewares/errorHandler";
 import {
   checkAdminAccess,
@@ -19,6 +21,9 @@ export default function myApp() {
   app.use(express.json());
   app.use(cookieParser());
   app.use(cors());
+
+  const swaggerDocument = YAML.load("./swagger.yml");
+  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
   app.use("/api/v1", OpenRoutes);
   app.use("/api/v1/auth", AuthRouter);
