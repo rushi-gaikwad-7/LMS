@@ -7,5 +7,4 @@ class memberQuery {
     return await db("members").select("*");
   }
 }
-
 export default new memberQuery();

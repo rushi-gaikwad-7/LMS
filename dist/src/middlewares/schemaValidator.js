@@ -9,8 +9,14 @@ const errorClass_1 = require("../utils/errorClass");
 const memberSchemaValidator = (req, res, next) => {
     try {
         const schema = joi_1.default.object({
-            name: joi_1.default.string().min(2).max(15).required(),
-            role: joi_1.default.string().optional(),
+            name: joi_1.default.string()
+                .min(2)
+                .max(15)
+                .required()
+                .regex(/^[a-zA-Z, ]*$/, "Alphanumerics"),
+            role: joi_1.default.string()
+                .optional()
+                .regex(/^[a-zA-Z, ]*$/, "Alphanumerics"),
             email: joi_1.default.string()
                 .required()
                 .email({
@@ -35,11 +41,14 @@ exports.memberSchemaValidator = memberSchemaValidator;
 const loginSchemaValidator = (req, res, next) => {
     try {
         const schema = joi_1.default.object({
-            email: joi_1.default.string().email({
+            email: joi_1.default.string()
+                .required()
+                .email({
                 minDomainSegments: 2,
                 tlds: { allow: ["com", "net"] },
             }),
-            password: joi_1.default.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")),
+            password: joi_1.default.string()
+                .required().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")),
         });
         const result = schema.validate(req.body);
         if (result.error) {
@@ -55,12 +64,24 @@ exports.loginSchemaValidator = loginSchemaValidator;
 const bookSchemaValidator = (req, res, next) => {
     try {
         const schema = joi_1.default.object({
-            title: joi_1.default.string().min(2).max(15).required(),
-            author: joi_1.default.string().min(2).max(15).required(),
-            category: joi_1.default.string().min(2).max(15).required(),
+            title: joi_1.default.string().min(3).max(15).required(),
+            author: joi_1.default.string()
+                .min(3)
+                .max(15)
+                .required()
+                .regex(/^[a-zA-Z, ]*$/, "Alphanumerics"),
+            category: joi_1.default.string()
+                .min(3)
+                .max(15)
+                .required()
+                .regex(/^[a-zA-Z, ]*$/, "Alphanumerics"),
             publish_year: joi_1.default.number().required(),
             rating: joi_1.default.number().required().max(10).min(1),
-            language: joi_1.default.string().min(2).max(15).required(),
+            language: joi_1.default.string()
+                .min(3)
+                .max(15)
+                .required()
+                .regex(/^[a-zA-Z, ]*$/, "Alphanumerics"),
             pages: joi_1.default.number().required(),
             cover: joi_1.default.string().optional(),
         });
@@ -78,11 +99,23 @@ exports.bookSchemaValidator = bookSchemaValidator;
 const updatebookSchemaValidator = (req, res, next) => {
     try {
         const schema = joi_1.default.object({
-            title: joi_1.default.string().min(2).max(15).optional(),
-            author: joi_1.default.string().min(2).max(15).optional(),
-            category: joi_1.default.string().min(2).max(15).optional(),
+            title: joi_1.default.string().min(3).max(15).optional(),
+            author: joi_1.default.string()
+                .min(2)
+                .max(15)
+                .optional()
+                .regex(/^[a-zA-Z, ]*$/, "Alphanumerics"),
+            category: joi_1.default.string()
+                .min(3)
+                .max(15)
+                .optional()
+                .regex(/^[a-zA-Z, ]*$/, "Alphanumerics"),
             publish_year: joi_1.default.number().optional(),
-            language: joi_1.default.string().min(2).max(15).optional(),
+            language: joi_1.default.string()
+                .min(2)
+                .max(15)
+                .optional()
+                .regex(/^[a-zA-Z, ]*$/, "Alphanumerics"),
             rating: joi_1.default.number().optional().max(10).min(1),
             pages: joi_1.default.number().optional(),
             cover: joi_1.default.string().optional(),

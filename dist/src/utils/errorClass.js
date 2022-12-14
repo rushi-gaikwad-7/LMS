@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.NOT_FOUND = exports.FORBIDDEN = exports.UNAUTHORIZED = exports.BAD_REQUEST = exports.OperationalError = exports.ErrorMessage = exports.StatusCode = void 0;
+exports.IINTERNAL_SERVER_ERROR = exports.NOT_FOUND = exports.FORBIDDEN = exports.UNAUTHORIZED = exports.BAD_REQUEST = exports.OperationalError = exports.ErrorMessage = exports.StatusCode = void 0;
 var StatusCode;
 (function (StatusCode) {
     StatusCode[StatusCode["BAD_REQUEST"] = 400] = "BAD_REQUEST";
@@ -51,3 +51,9 @@ class NOT_FOUND extends OperationalError {
     }
 }
 exports.NOT_FOUND = NOT_FOUND;
+class IINTERNAL_SERVER_ERROR extends OperationalError {
+    constructor(message = ErrorMessage.IINTERNAL_SERVER_ERROR) {
+        super("IINTERNAL_SERVER_ERROR", StatusCode.IINTERNAL_SERVER_ERROR, message);
+    }
+}
+exports.IINTERNAL_SERVER_ERROR = IINTERNAL_SERVER_ERROR;

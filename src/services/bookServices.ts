@@ -1,5 +1,6 @@
 import crypto from "crypto";
 import bookQuery from "../db/dbQuerys/bookQuery";
+import bunyan from "bunyan";
 import { IINTERNAL_SERVER_ERROR, NOT_FOUND } from "../utils/errorClass";
 import {
   addbookSchema,
@@ -30,9 +31,10 @@ class bookService {
 
   // get books from db with provided Search query
 
-  async searchBook(query: string) {
-    const books = await bookQuery.searchBook(query);
+  async searchBook(query: any, loggerForSearchbooks?: bunyan) {
+    loggerForSearchbooks?.info("in the searchBokk");
 
+    const books = await bookQuery.searchBook(query);
     if (books.length === 0) {
       throw new NOT_FOUND("no search result");
     }

@@ -11,8 +11,8 @@ const checkUserAccess_1 = require("./middlewares/checkUserAccess");
 const authRoutesController_1 = require("./controllers/authRoutesController");
 const memberRoutesController_1 = require("./controllers/memberRoutesController");
 const adminRoutesController_1 = require("./controllers/adminRoutesController");
-const errorClass_1 = require("./utils/errorClass");
 const openRoutesController_1 = require("./controllers/openRoutesController");
+const pageNotFound_1 = require("./middlewares/pageNotFound");
 function myApp() {
     const app = (0, express_1.default)();
     app.use(express_1.default.urlencoded({ extended: true }));
@@ -23,14 +23,7 @@ function myApp() {
     app.use("/api/v1/auth", authRoutesController_1.AuthRouter);
     app.use("/api/v1/member", checkUserAccess_1.checkMemberAccess, memberRoutesController_1.MemberRoutes);
     app.use("/api/v1/admin", checkUserAccess_1.checkAdminAccess, adminRoutesController_1.AdminRouter);
-    app.use("*", async (req, res) => {
-        res.status(404).json({
-            status: "error",
-            statusCode: 404,
-            message: errorClass_1.ErrorMessage.NOT_FOUND,
-            error_detail: `OOPS...! ${req.originalUrl} not found`,
-        });
-    });
+    app.use("*", pageNotFound_1.pageNotFound);
     app.use(errorHandler_1.errorHandler);
     return app;
 }

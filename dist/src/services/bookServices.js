@@ -24,7 +24,8 @@ class bookService {
         return book;
     }
     // get books from db with provided Search query
-    async searchBook(query) {
+    async searchBook(query, loggerForSearchbooks) {
+        loggerForSearchbooks === null || loggerForSearchbooks === void 0 ? void 0 : loggerForSearchbooks.info("in the searchBokk");
         const books = await bookQuery_1.default.searchBook(query);
         if (books.length === 0) {
             throw new errorClass_1.NOT_FOUND("no search result");
@@ -35,6 +36,9 @@ class bookService {
     async addNewBook(bookData) {
         const lib_book_id = crypto_1.default.randomBytes(3).toString("hex");
         const newBook = await bookQuery_1.default.addNewBook({ ...bookData, lib_book_id });
+        if (newBook.length === 0) {
+            throw new errorClass_1.IINTERNAL_SERVER_ERROR();
+        }
         return newBook;
     }
     // update book in db with provided book fields

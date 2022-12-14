@@ -25,10 +25,13 @@ exports.AuthRouter.post("/register", schemaValidator_1.memberSchemaValidator, as
 exports.AuthRouter.post("/login", schemaValidator_1.loginSchemaValidator, async (req, res, next) => {
     try {
         const token = await authServices_1.default.login(req.body);
-        res.cookie("access_token", token, {
+        res
+            .status(200)
+            .cookie("access_token", token, {
             httpOnly: true,
-        });
-        res.status(200).json({
+            secure: true,
+        })
+            .json({
             status: "success",
             statusCode: 200,
             message: "Logged in successfully 😊 👌",

@@ -15,7 +15,7 @@ export const checkAdminAccess = async (
     if (decoded.role === "admin") {
       next();
     } else {
-      throw new FORBIDDEN(`access denied for${req.originalUrl}`);
+      throw new FORBIDDEN("access denied");
     }
   } catch (error) {
     next(next(next(error)));
@@ -29,13 +29,13 @@ export const checkMemberAccess = async (
 ) => {
   try {
     if (!req.cookies.access_token) {
-      throw new UNAUTHORIZED(`please login to access${req.originalUrl}`);
+      throw new UNAUTHORIZED("please login to access");
     }
     const decoded: any = await VerifyAccessToken(req.cookies.access_token);
     if (decoded.role === "member" || decoded.role === "admin") {
       next();
     } else {
-      throw new FORBIDDEN(`access denied for${req.originalUrl}`);
+      throw new FORBIDDEN("access denied");
     }
   } catch (error) {
     next(next(next(error)));

@@ -45,11 +45,14 @@ export const loginSchemaValidator = (
 ) => {
   try {
     const schema = Joi.object({
-      email: Joi.string().email({
-        minDomainSegments: 2,
-        tlds: { allow: ["com", "net"] },
-      }),
-      password: Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")),
+      email: Joi.string()
+        .required()
+        .email({
+          minDomainSegments: 2,
+          tlds: { allow: ["com", "net"] },
+        }),
+      password: Joi.string()
+        .required().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")),
     });
     const result = schema.validate(req.body);
     if (result.error) {

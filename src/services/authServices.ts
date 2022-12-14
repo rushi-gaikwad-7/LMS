@@ -10,26 +10,25 @@ class authService {
   async addNewMember(body: userBody) {
     const { name, password, email, role } = body;
 
-    const member: any = await authQuery.findMember(email);
-    if (member) {
-      throw new FORBIDDEN("user already exist");
+    const member = await authQuery.findMember(email);
+    if (member.length === 0) {
+      const hash_key = await createHashPassword(password);
+      if (hash_key) {
+        return await authQuery.addNewMember({
+          name,
+          email,
+          hash_key,
+          role,
+        });
+      }
     }
-    const hash_key = await createHashPassword(password);
-    if (hash_key) {
-      return await authQuery.addNewMember({
-        name,
-        email,
-        hash_key,
-        role,
-      });
-    }
+    throw new FORBIDDEN("user already exist");
   }
 
   //login  member with correct credientials
 
   async login(userData: loginUserBody) {
     const { password, email } = userData;
-
     const member: any = await authQuery.findMember(email);
     if (member.length === 0) {
       throw new NOT_FOUND("user not found");

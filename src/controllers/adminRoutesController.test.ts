@@ -7,6 +7,43 @@ import booksQueries from "../db/dbQuerys/bookQuery";
 import memberQueries from "../db/dbQuerys/memberQuery";
 const MockApp = app();
 
+describe("test for chech admin access", (): void => {
+  let jwtMock: any;
+  beforeEach(() => {
+    jwtMock = sinon.stub(jwtMockVerify, "VerifyAccessToken");
+  });
+  afterEach(() => {
+    jwtMock.restore();
+  });
+  test("throw error if user is not logged In", async () => {
+    jwtMock.resolves({
+      role: "",
+    });
+    const response = await request(MockApp)
+      .post("/api/v1/admin/addnewbook")
+      .send();
+    expect(response.body).toEqual({
+      status: "error",
+      statusCode: 401,
+      message: "please login to access",
+    });
+  });
+  test("throw error if user is not a admin In", async () => {
+    jwtMock.resolves({
+      role: "member",
+    });
+    const response = await request(MockApp)
+      .post("/api/v1/admin/addnewbook")
+      .send()
+      .set("Cookie", "access_token=abd");
+    expect(response.body).toEqual({
+      status: "error",
+      statusCode: 403,
+      message: "access denied",
+    });
+  });
+});
+
 describe("test for add new book into db", (): void => {
   let jwtMock: any;
   let mockquery_fn: any;
@@ -309,7 +346,7 @@ describe("Testing length of book_id length", (): void => {
       },
     ]);
     const response = await request(MockApp)
-      .put("/api/v1/admin/members")
+      .put("/api/v1/admin/updatebook/8cc005d6-0ccd-485c-97e8-f212c16f876d")
       .send({
         title: "damchai",
       })
@@ -344,12 +381,32 @@ describe("Testing get request for fetching members data", (): void => {
     });
     mockquery_fn1.resolves([]);
     const response = await request(MockApp)
-      .get("/api/v1/admin/updatebook/book_id")
+      .get("/api/v1/admin/members")
       .set("Cookie", "access_token=abcd");
     expect(response.body).toEqual({
       message: "We could not find the resource you requested.",
       status: "error",
-      statusCode: 400,
+      statusCode: 404,
+    });
+  });
+
+  test("send response  if db fetched members data successfully ", async () => {
+    jwtMock.resolves({
+      role: "admin",
+    });
+    mockquery_fn1.resolves([{ test: "test" }]);
+    const response = await request(MockApp)
+      .get("/api/v1/admin/members")
+      .set("Cookie", "access_token=abcd");
+    expect(response.body).toEqual({
+      data: [
+        {
+          test: "test",
+        },
+      ],
+      message: "data fetched successfully",
+      status: "success",
+      statusCode: 200,
     });
   });
 });

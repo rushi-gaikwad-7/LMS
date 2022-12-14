@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { ErrorMessage, OperationalError } from "../utils/errorClass";
+import { OperationalError } from "../utils/errorClass";
 
 export const errorHandler = (
   error: OperationalError,
@@ -8,18 +8,10 @@ export const errorHandler = (
   next: NextFunction
 ) => {
   if (error instanceof OperationalError) {
-    return res.status(error.statusCode).json({
+    return res.status(error.statusCode || 500).json({
       status: "error",
       statusCode: error.statusCode,
-      message: error.message,
-    });
-  } else {
-    // log.error(error);
-
-    return res.status(500).json({
-      status: "error",
-      statusCode: 500,
-      message: "Something went wrong",
+      message: error.message || "Something went wrong",
     });
   }
 };

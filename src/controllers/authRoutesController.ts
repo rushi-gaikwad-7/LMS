@@ -32,16 +32,18 @@ AuthRouter.post(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const token = await authService.login(req.body);
-
-      res.cookie("access_token", token, {
-        httpOnly: true,
-      });
-      res.status(200).json({
-        status: "success",
-        statusCode: 200,
-        message: "Logged in successfully 😊 👌",
-        data: [],
-      });
+      res
+        .status(200)
+        .cookie("access_token", token, {
+          httpOnly: true,
+          secure: true,
+        })
+        .json({
+          status: "success",
+          statusCode: 200,
+          message: "Logged in successfully 😊 👌",
+          data: [],
+        });
     } catch (error) {
       next(error);
     }

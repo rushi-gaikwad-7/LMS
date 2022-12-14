@@ -1,4 +1,3 @@
-import { Response, Request } from "express";
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -10,8 +9,8 @@ import {
 import { AuthRouter } from "./controllers/authRoutesController";
 import { MemberRoutes } from "./controllers/memberRoutesController";
 import { AdminRouter } from "./controllers/adminRoutesController";
-import { ErrorMessage } from "./utils/errorClass";
 import { OpenRoutes } from "./controllers/openRoutesController";
+import { pageNotFound } from "./middlewares/pageNotFound";
 
 export default function myApp() {
   const app = express();
@@ -26,14 +25,7 @@ export default function myApp() {
   app.use("/api/v1/member", checkMemberAccess, MemberRoutes);
   app.use("/api/v1/admin", checkAdminAccess, AdminRouter);
 
-  app.use("*", async (req: Request, res: Response) => {
-    res.status(404).json({
-      status: "error",
-      statusCode: 404,
-      message: ErrorMessage.NOT_FOUND,
-      error_detail: `OOPS...! ${req.originalUrl} not found`,
-    });
-  });
+  app.use("*", pageNotFound);
   app.use(errorHandler);
   return app;
 }

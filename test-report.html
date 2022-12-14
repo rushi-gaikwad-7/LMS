@@ -1,0 +1,232 @@
+<html><head><meta charset="utf-8"/><title>Test Report</title><style type="text/css">html,
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+body {
+  padding: 2rem 1rem;
+  font-size: 0.85rem;
+}
+#jesthtml-content {
+  margin: 0 auto;
+  max-width: 70rem;
+}
+header {
+  display: flex;
+  align-items: center;
+}
+#title {
+  margin: 0;
+  flex-grow: 1;
+}
+#logo {
+  height: 4rem;
+}
+#timestamp {
+  color: #777;
+  margin-top: 0.5rem;
+}
+
+/** SUMMARY */
+#summary {
+  color: #333;
+  margin: 2rem 0;
+  display: flex;
+  font-family: monospace;
+  font-size: 1rem;
+}
+#summary > div {
+  margin-right: 2rem;
+  background: #eee;
+  padding: 1rem;
+  min-width: 15rem;
+}
+#summary > div:last-child {
+  margin-right: 0;
+}
+@media only screen and (max-width: 720px) {
+  #summary {
+    flex-direction: column;
+  }
+  #summary > div {
+    margin-right: 0;
+    margin-top: 2rem;
+  }
+  #summary > div:first-child {
+    margin-top: 0;
+  }
+}
+
+.summary-total {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+.summary-passed {
+  color: #4f8a10;
+  border-left: 0.4rem solid #4f8a10;
+  padding-left: 0.5rem;
+}
+.summary-failed,
+.summary-obsolete-snapshots {
+  color: #d8000c;
+  border-left: 0.4rem solid #d8000c;
+  padding-left: 0.5rem;
+}
+.summary-pending {
+  color: #9f6000;
+  border-left: 0.4rem solid #9f6000;
+  padding-left: 0.5rem;
+}
+.summary-empty {
+  color: #999;
+  border-left: 0.4rem solid #999;
+}
+
+.test-result {
+  padding: 1rem;
+  margin-bottom: 0.25rem;
+}
+.test-result:last-child {
+  border: 0;
+}
+.test-result.passed {
+  background-color: #dff2bf;
+  color: #4f8a10;
+}
+.test-result.failed {
+  background-color: #ffbaba;
+  color: #d8000c;
+}
+.test-result.pending {
+  background-color: #ffdf61;
+  color: #9f6000;
+}
+
+.test-info {
+  display: flex;
+  justify-content: space-between;
+}
+.test-suitename {
+  width: 20%;
+  text-align: left;
+  font-weight: bold;
+  word-break: break-word;
+}
+.test-title {
+  width: 40%;
+  text-align: left;
+  font-style: italic;
+}
+.test-status {
+  width: 20%;
+  text-align: right;
+}
+.test-duration {
+  width: 10%;
+  text-align: right;
+  font-size: 0.75rem;
+}
+
+.failureMessages {
+  padding: 0 1rem;
+  margin-top: 1rem;
+  border-top: 1px dashed #d8000c;
+}
+.failureMessages.suiteFailure {
+  border-top: none;
+}
+.failureMsg {
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+
+.suite-container {
+  margin-bottom: 2rem;
+}
+.suite-info {
+  padding: 1rem;
+  background-color: #eee;
+  color: #777;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+.suite-info .suite-path {
+  word-break: break-all;
+  flex-grow: 1;
+  font-family: monospace;
+  font-size: 1rem;
+}
+.suite-info .suite-time {
+  margin-left: 0.5rem;
+  padding: 0.2rem 0.3rem;
+  font-size: 0.75rem;
+}
+.suite-info .suite-time.warn {
+  background-color: #d8000c;
+  color: #fff;
+}
+
+/* CONSOLE LOGS */
+.suite-consolelog {
+  margin-bottom: 0.25rem;
+  padding: 1rem;
+  background-color: #efefef;
+}
+.suite-consolelog-header {
+  font-weight: bold;
+}
+.suite-consolelog-item {
+  padding: 0.5rem;
+}
+.suite-consolelog-item pre {
+  margin: 0.5rem 0;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+.suite-consolelog-item-origin {
+  color: #777;
+  font-weight: bold;
+}
+.suite-consolelog-item-message {
+  color: #000;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
+
+/* OBSOLETE SNAPSHOTS */
+.suite-obsolete-snapshots {
+  margin-bottom: 0.25rem;
+  padding: 1rem;
+  background-color: #ffbaba;
+  color: #d8000c;
+}
+.suite-obsolete-snapshots-header {
+  font-weight: bold;
+}
+.suite-obsolete-snapshots-item {
+  padding: 0.5rem;
+}
+.suite-obsolete-snapshots-item pre {
+  margin: 0.5rem 0;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+.suite-obsolete-snapshots-item-message {
+  color: #000;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
+</style></head><body><div id="jesthtml-content"><header><h1 id="title">Test Report</h1></header><div id="metadata-container"><div id="timestamp">Started: 2022-12-14 01:24:06</div><div id="summary"><div id="suite-summary"><div class="summary-total">Suites (10)</div><div class="summary-passed">10 passed</div><div class="summary-failed summary-empty">0 failed</div><div class="summary-pending summary-empty">0 pending</div></div><div id="test-summary"><div class="summary-total">Tests (67)</div><div class="summary-passed">67 passed</div><div class="summary-failed summary-empty">0 failed</div><div class="summary-pending summary-empty">0 pending</div></div></div></div><div id="suite-1" class="suite-container"><div class="suite-info"><div class="suite-path">C:\Users\RushikeshGaikwad\Desktop\LMS\src\controllers\openRoutesController.test.ts</div><div class="suite-time warn">6.806s</div></div><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">test get books data</div><div class="test-title">check response of get request is successful</div><div class="test-status">passed</div><div class="test-duration">2.543s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">test get books data</div><div class="test-title">check if responce is empty throw  error</div><div class="test-status">passed</div><div class="test-duration">1.052s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing search books request with query</div><div class="test-title">check query feild is valid for request</div><div class="test-status">passed</div><div class="test-duration">0.102s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing search books request with query</div><div class="test-title">check query value min limit is valid for request</div><div class="test-status">passed</div><div class="test-duration">0.044s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing search books request with query</div><div class="test-title">check query value max limit is valid for request</div><div class="test-status">passed</div><div class="test-duration">0.063s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing search books request with query</div><div class="test-title">check search result are fetched successfully </div><div class="test-status">passed</div><div class="test-duration">0.055s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing search books request with query</div><div class="test-title">if no search result are found throw error </div><div class="test-status">passed</div><div class="test-duration">0.014s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing length of book_id length</div><div class="test-title">check search result are fetched successfully </div><div class="test-status">passed</div><div class="test-duration">0.02s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing length of book_id length</div><div class="test-title">check uuid is in correct format or not </div><div class="test-status">passed</div><div class="test-duration">0.018s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing length of book_id length</div><div class="test-title">throw error if result is empty array</div><div class="test-status">passed</div><div class="test-duration">0.03s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing length of book_id length</div><div class="test-title">throw error if result is empty array</div><div class="test-status">passed</div><div class="test-duration">0.021s</div></div></div></div></div><div id="suite-2" class="suite-container"><div class="suite-info"><div class="suite-path">C:\Users\RushikeshGaikwad\Desktop\LMS\src\controllers\authRoutesController.test.ts</div><div class="suite-time">2.665s</div></div><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">test for add new book into db</div><div class="test-title">check req body for register is valid schema or not</div><div class="test-status">passed</div><div class="test-duration">1.3s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">test for add new book into db</div><div class="test-title">check user is alredy present throw error</div><div class="test-status">passed</div><div class="test-duration">0.134s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">test for add new book into db</div><div class="test-title">check user is alredy present throw error</div><div class="test-status">passed</div><div class="test-duration">0.048s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">test for login user route</div><div class="test-title">check req body for login is valid schema or not</div><div class="test-status">passed</div><div class="test-duration">0.073s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">test for login user route</div><div class="test-title">check user is  present or not </div><div class="test-status">passed</div><div class="test-duration">0.046s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">test for login user route</div><div class="test-title">check paasword  is valid or not present or not </div><div class="test-status">passed</div><div class="test-duration">0.016s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">test for login user route</div><div class="test-title">check paasword  is valid or not present or not </div><div class="test-status">passed</div><div class="test-duration">0.015s</div></div></div></div></div><div id="suite-3" class="suite-container"><div class="suite-info"><div class="suite-path">C:\Users\RushikeshGaikwad\Desktop\LMS\src\controllers\adminRoutesController.test.ts</div><div class="suite-time">2.715s</div></div><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">test for chech admin access</div><div class="test-title">throw error if user is not logged In</div><div class="test-status">passed</div><div class="test-duration">1.072s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">test for chech admin access</div><div class="test-title">throw error if user is not a admin In</div><div class="test-status">passed</div><div class="test-duration">0.102s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">test for add new book into db</div><div class="test-title">throw error if title field is not present in req body</div><div class="test-status">passed</div><div class="test-duration">0.027s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">test for add new book into db</div><div class="test-title">throw error if title field length is below 3 in req body </div><div class="test-status">passed</div><div class="test-duration">0.054s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">test for add new book into db</div><div class="test-title">throw error if title field length is below 3 in req body </div><div class="test-status">passed</div><div class="test-duration">0.067s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">test for add new book into db</div><div class="test-title">throw error if author field is notpresent in req body </div><div class="test-status">passed</div><div class="test-duration">0.036s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">test for add new book into db</div><div class="test-title">send response after adding book in db </div><div class="test-status">passed</div><div class="test-duration">0.028s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">test for add new book into db</div><div class="test-title">throw error if failed to add book  in db </div><div class="test-status">passed</div><div class="test-duration">0.022s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing length of book_id length</div><div class="test-title">check book_id is correct in req params </div><div class="test-status">passed</div><div class="test-duration">0.023s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing length of book_id length</div><div class="test-title">check uuid as book_id is in correct format or not </div><div class="test-status">passed</div><div class="test-duration">0.021s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing length of book_id length</div><div class="test-title">throw error if  field for update is not valid schema in req body</div><div class="test-status">passed</div><div class="test-duration">0.025s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing length of book_id length</div><div class="test-title">throw error if  field for update is not valid schema in req body</div><div class="test-status">passed</div><div class="test-duration">0.035s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing length of book_id length</div><div class="test-title">throw error if  book for update is not found in db</div><div class="test-status">passed</div><div class="test-duration">0.053s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing length of book_id length</div><div class="test-title">throw error if  book for update is not found in db</div><div class="test-status">passed</div><div class="test-duration">0.046s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing length of book_id length</div><div class="test-title">send response and data as array of object  if request is fulfiled</div><div class="test-status">passed</div><div class="test-duration">0.023s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing get request for fetching members data</div><div class="test-title">throw error if db gives empty array of object </div><div class="test-status">passed</div><div class="test-duration">0.015s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing get request for fetching members data</div><div class="test-title">send response  if db fetched members data successfully </div><div class="test-status">passed</div><div class="test-duration">0.017s</div></div></div></div></div><div id="suite-4" class="suite-container"><div class="suite-info"><div class="suite-path">C:\Users\RushikeshGaikwad\Desktop\LMS\src\middlewares\pageNotFound.test.ts</div><div class="suite-time">1.948s</div></div><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">if request route is not present</div><div class="test-title">send response if route address not matched as page not found</div><div class="test-status">passed</div><div class="test-duration">1.064s</div></div></div></div></div><div id="suite-5" class="suite-container"><div class="suite-info"><div class="suite-path">C:\Users\RushikeshGaikwad\Desktop\LMS\src\controllers\memberRoutesController.test.ts</div><div class="suite-time">2.344s</div></div><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">test for chech member access</div><div class="test-title">throw error if user is not logged In</div><div class="test-status">passed</div><div class="test-duration">1.133s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">test for chech member access</div><div class="test-title">throw error if user is not a admin In</div><div class="test-status">passed</div><div class="test-duration">0.021s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">test for loan book to member </div><div class="test-title">throw error if title field is not present in req body</div><div class="test-status">passed</div><div class="test-duration">0.026s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">test for loan book to member </div><div class="test-title">throw error if title field is not present in req body</div><div class="test-status">passed</div><div class="test-duration">0.021s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">test for loan book to member </div><div class="test-title">if book is alredy loanded throw error</div><div class="test-status">passed</div><div class="test-duration">0.023s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">test for loan book to member </div><div class="test-title">if book is not  loanded assign to new member </div><div class="test-status">passed</div><div class="test-duration">0.035s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">test for fetching  books of logged in member </div><div class="test-title">throw error if title field is not present in req body</div><div class="test-status">passed</div><div class="test-duration">0.044s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">test for fetching  books of logged in member </div><div class="test-title">throw error if title field is not present in req body</div><div class="test-status">passed</div><div class="test-duration">0.054s</div></div></div></div></div><div id="suite-6" class="suite-container"><div class="suite-info"><div class="suite-path">C:\Users\RushikeshGaikwad\Desktop\LMS\src\utils\bcrypt.test.ts</div><div class="suite-time">0.793s</div></div><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">test bcrypt utils functions </div><div class="test-title">test password is valid or not</div><div class="test-status">passed</div><div class="test-duration">0.525s</div></div></div></div></div><div id="suite-7" class="suite-container"><div class="suite-info"><div class="suite-path">C:\Users\RushikeshGaikwad\Desktop\LMS\src\services\authServices.test.ts</div><div class="suite-time">0.668s</div></div><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing for adding new member data</div><div class="test-title">if member is already present in data base throw error</div><div class="test-status">passed</div><div class="test-duration">0.01s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing for adding new member data</div><div class="test-title">check adding member to db is success or not</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing the login member service</div><div class="test-title">if member is not present in data base throw error</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing the login member service</div><div class="test-title">throw error if password not matched</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing the login member service</div><div class="test-title">check token is generated after verifying password </div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div></div></div><div id="suite-8" class="suite-container"><div class="suite-info"><div class="suite-path">C:\Users\RushikeshGaikwad\Desktop\LMS\src\services\memberServices.test.ts</div><div class="suite-time">0.59s</div></div><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing for fething  books data</div><div class="test-title">if members data fetched successfully from db send array of object</div><div class="test-status">passed</div><div class="test-duration">0.009s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing for fething  books data</div><div class="test-title">if books data is empty in db send empty array of object and the error</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div></div></div><div id="suite-9" class="suite-container"><div class="suite-info"><div class="suite-path">C:\Users\RushikeshGaikwad\Desktop\LMS\src\services\bookServices.test.ts</div><div class="suite-time">0.622s</div></div><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing for fething  books data</div><div class="test-title">if books fetched successfully from db send array of object</div><div class="test-status">passed</div><div class="test-duration">0.005s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing for fething  books data</div><div class="test-title">if books data is empty in db send empty array of object</div><div class="test-status">passed</div><div class="test-duration">0.006s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing for fething single book data</div><div class="test-title">if book fetched successfully from db send array object</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing for fething single book data</div><div class="test-title">if book data is empty in db send empty array</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing for  searching  books data with input query</div><div class="test-title">if books searched successfully from db send array of object</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing for  searching  books data with input query</div><div class="test-title">if books data is empty in db send empty array</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing for adding new book into db</div><div class="test-title">if book added successfully from db send array of object</div><div class="test-status">passed</div><div class="test-duration">0.004s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing for updating  book data</div><div class="test-title">if book is not present in db send undefined from db</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing for updating  book data</div><div class="test-title">if book updated in db send array of object</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing of assigning book to logged  member</div><div class="test-title">if book is not present in db send empty array from db</div><div class="test-status">passed</div><div class="test-duration">0.005s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing of assigning book to logged  member</div><div class="test-title">check book is avilable for loan or not</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing of assigning book to logged  member</div><div class="test-title">check book is loaned or not</div><div class="test-status">passed</div><div class="test-duration">0.004s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing of getting  book of logged  member</div><div class="test-title">if books fetched successfully from db send array of object</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Testing of getting  book of logged  member</div><div class="test-title">if books data is empty in db send empty array of object</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div></div></div><div id="suite-10" class="suite-container"><div class="suite-info"><div class="suite-path">C:\Users\RushikeshGaikwad\Desktop\LMS\src\utils\jwt.test.ts</div><div class="suite-time">0.267s</div></div><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">test bcrypt utils functions </div><div class="test-title">test password is valid or not</div><div class="test-status">passed</div><div class="test-duration">0.008s</div></div></div></div></div></div></body></html>

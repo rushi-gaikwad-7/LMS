@@ -2,7 +2,7 @@ import { createHashPassword } from "./bcrypt";
 import { checkPassword } from "./bcrypt";
 
 describe("test bcrypt utils functions ", (): void => {
-  test.skip("test password is valid or not", async () => {
+  test("test password is valid or not", async () => {
     //act
     const hash = await createHashPassword("password");
     const isvalid = await checkPassword("password", hash);

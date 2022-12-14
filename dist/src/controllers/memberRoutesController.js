@@ -14,12 +14,12 @@ exports.MemberRoutes.post("/loanbook/:book_id", paramsValidator_1.book_id_valida
         const decoded = await (0, jwt_1.VerifyAccessToken)(req.cookies.access_token);
         if (decoded) {
             const member_id = decoded.member_id;
-            await bookServices_1.default.loanBook(req.params.book_id, member_id);
+            const data = await bookServices_1.default.loanBook(req.params.book_id, member_id);
             res.status(201).json({
                 status: "success",
                 statusCode: 201,
                 message: "book loaned successfully 😊 👌",
-                data: [],
+                data,
             });
         }
     }
@@ -27,15 +27,19 @@ exports.MemberRoutes.post("/loanbook/:book_id", paramsValidator_1.book_id_valida
         next(error);
     }
 });
-exports.MemberRoutes.get("/books/:member_id", paramsValidator_1.member_id_validator, async (req, res, next) => {
+exports.MemberRoutes.get("/books", async (req, res, next) => {
     try {
-        const books = await bookServices_1.default.memberBooks(req.params.member_id);
-        res.status(200).json({
-            status: "success",
-            statusCode: 200,
-            message: "books fetched successfully",
-            data: books,
-        });
+        const decoded = await (0, jwt_1.VerifyAccessToken)(req.cookies.access_token);
+        if (decoded) {
+            const member_id = decoded.member_id;
+            const books = await bookServices_1.default.memberBooks(member_id);
+            res.status(200).json({
+                status: "success",
+                statusCode: 200,
+                message: "books fetched successfully",
+                data: books,
+            });
+        }
     }
     catch (error) {
         next(error);

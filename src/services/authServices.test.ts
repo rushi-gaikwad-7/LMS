@@ -39,13 +39,13 @@ describe("Testing for adding new member data", () => {
   });
 
   test("check adding member to db is success or not", async () => {
+    mockquery_fn1.resolves([]);
     mockquery_fn3.resolves("sdjdjcncdd");
     mockquery_fn2.resolves([
       {
         test_data: "test1",
       },
     ]);
-
     const res = await authServices.addNewMember({
       name: "",
       email: "",

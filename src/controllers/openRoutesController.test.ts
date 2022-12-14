@@ -8,7 +8,7 @@ const MockApp = app();
 //GET BOOKS REQUEST
 
 describe("test get books data", (): void => {
-  let mockquery_fn: sinon.SinonStub<[], Promise<unknown[]>>;
+  let mockquery_fn: any;
   beforeEach(() => {
     mockquery_fn = sinon.stub(booksQueries, "getAllbooks");
   });
