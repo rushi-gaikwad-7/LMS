@@ -10,8 +10,8 @@ export const errorHandler = (
   if (error instanceof OperationalError) {
     return res.status(error.statusCode || 500).json({
       status: "error",
-      statusCode: error.statusCode,
-      message: error.message || "Something went wrong",
+      statusCode: error.statusCode || 500,
+      message: error.message || "something went wrong",
     });
   }
 };

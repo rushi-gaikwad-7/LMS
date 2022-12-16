@@ -1,41 +1,37 @@
-import crypto from "crypto";
 import bookQuery from "../db/dbQuerys/bookQuery";
-import bunyan from "bunyan";
 import { IINTERNAL_SERVER_ERROR, NOT_FOUND } from "../utils/errorClass";
 import {
   addbookSchema,
   dbBookResponse,
   updatebookSchema,
 } from "../types/bookSchemaTypes";
+import { randomString } from "../utils/cryptoRandom";
 
 class bookService {
   // get all books from db
 
-  async getAllbooks(loggerForSearchbooks?: bunyan) {
+  async getAllbooks() {
     const books = await bookQuery.getAllbooks();
     if (books.length === 0) {
       throw new NOT_FOUND("fetching data is failed");
     }
-    loggerForSearchbooks?.error("logged in service");
     return books;
   }
 
   // get single books from db with provided book_id
 
-  async getSingleBook(book_id: string, loggerForSearchbooks?: bunyan) {
+  async getSingleBook(book_id: string) {
     const book = await bookQuery.findBook(book_id);
     if (book.length === 0) {
       const error = new NOT_FOUND("book is not exist");
-      loggerForSearchbooks?.error({ err: error });
       throw error;
     }
-    loggerForSearchbooks?.info({ message: "books fetched from db" });
     return book;
   }
 
   // get books from db with provided Search query
 
-  async searchBook(query: any, loggerForSearchbooks?: bunyan) {
+  async searchBook(query: any) {
     const books = await bookQuery.searchBook(query);
     if (books.length === 0) {
       throw new NOT_FOUND("no search result");
@@ -46,7 +42,7 @@ class bookService {
   // add book to db with provided book data
 
   async addNewBook(bookData: addbookSchema) {
-    const lib_book_id = crypto.randomBytes(3).toString("hex");
+    const lib_book_id = await randomString();
     const newBook = await bookQuery.addNewBook({ ...bookData, lib_book_id });
     if (newBook.length === 0) {
       throw new IINTERNAL_SERVER_ERROR();

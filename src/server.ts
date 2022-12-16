@@ -9,6 +9,6 @@ const APP_PORT = Number(process.env.APP_PORT);
 const TEST_PORT = Number(process.env.TEST_PORT);
 
 const PORT = process.env.NODE_ENV === "test" ? TEST_PORT : APP_PORT;
-server.listen(PORT, () => {
+server.listen(PORT, (): void => {
   loggerForSearchbooks.info(`Server connected at http://localhost:${PORT}`);
 });

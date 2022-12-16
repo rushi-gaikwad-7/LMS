@@ -149,7 +149,7 @@ describe("test for loan book to member ", (): void => {
           test: "test",
         },
       ],
-      message: "book loaned successfully 😊 👌",
+      message: "book loaned successfully",
       status: "success",
       statusCode: 201,
     });

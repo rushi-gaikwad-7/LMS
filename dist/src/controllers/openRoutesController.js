@@ -5,60 +5,64 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OpenRoutes = void 0;
 const express_1 = require("express");
-const crypto_1 = __importDefault(require("crypto"));
 const paramsValidator_1 = require("../middlewares/paramsValidator");
 const queryValidator_1 = require("../middlewares/queryValidator");
 const bookServices_1 = __importDefault(require("../services/bookServices"));
+const cryptoRandom_1 = require("../utils/cryptoRandom");
 const logger_1 = require("../utils/logger");
 exports.OpenRoutes = (0, express_1.Router)();
-const reqId = crypto_1.default.randomBytes(3).toString("hex");
 exports.OpenRoutes.get("/books", async (req, res, next) => {
-    const loggerForSearchbooks = logger_1.logger.child({ reqId }, true);
-    loggerForSearchbooks.info({ req: req }, reqId);
+    const loggerForgetBooks = logger_1.logger.child({ req_id: await (0, cryptoRandom_1.randomString)() }, true);
+    loggerForgetBooks.info({ req: req });
     try {
-        const books = await bookServices_1.default.getAllbooks(loggerForSearchbooks);
-        loggerForSearchbooks.info({ req: req }, "books fetched successfully", reqId);
+        const books = await bookServices_1.default.getAllbooks();
         res.status(200).json({
             status: "success",
             statusCode: 200,
             message: "books fetched successfully",
             data: books,
         });
+        loggerForgetBooks.info({ res: res });
     }
     catch (error) {
+        loggerForgetBooks.error({ err: error });
         next(error);
     }
 });
 exports.OpenRoutes.get("/books/search", queryValidator_1.Search_query_Validator, async (req, res, next) => {
+    const loggerForSearchbooks = logger_1.logger.child({ req_id: await (0, cryptoRandom_1.randomString)() }, true);
+    loggerForSearchbooks.info({ req: req });
     try {
-        const loggerForSearchbooks = logger_1.logger.child({ reqId }, true);
         const query = req.query.query;
-        const books = await bookServices_1.default.searchBook(query, loggerForSearchbooks);
+        const books = await bookServices_1.default.searchBook(query);
         res.status(200).send({
             status: "success",
             statusCode: 200,
             message: "books fetched successfully",
             data: books,
         });
+        loggerForSearchbooks.info({ res: res });
     }
     catch (error) {
+        loggerForSearchbooks.error({ err: error });
         next(error);
     }
 });
 exports.OpenRoutes.get("/books/:book_id", paramsValidator_1.book_id_validator, async (req, res, next) => {
-    const loggerForSearchbooks = logger_1.logger.child({ reqId }, true);
-    loggerForSearchbooks.info({ req: req }, reqId);
+    const loggerForbook_byid = logger_1.logger.child({ req_id: await (0, cryptoRandom_1.randomString)() }, true);
+    loggerForbook_byid.info({ req: req });
     try {
-        const books = await bookServices_1.default.getSingleBook(req.params.book_id, loggerForSearchbooks);
+        const books = await bookServices_1.default.getSingleBook(req.params.book_id);
         res.status(200).send({
             status: "success",
             statusCode: 200,
             message: "book fetched successfully",
             data: books,
         });
-        loggerForSearchbooks.info({ res: res }, reqId);
+        loggerForbook_byid.info({ res: res });
     }
     catch (error) {
+        loggerForbook_byid.error({ err: error });
         next(error);
     }
 });

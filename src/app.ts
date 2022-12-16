@@ -13,6 +13,7 @@ import { MemberRoutes } from "./controllers/memberRoutesController";
 import { AdminRouter } from "./controllers/adminRoutesController";
 import { OpenRoutes } from "./controllers/openRoutesController";
 import { pageNotFound } from "./middlewares/pageNotFound";
+import { contentValidator } from "./middlewares/contentValidator";
 
 export default function myApp() {
   const app = express();
@@ -21,6 +22,8 @@ export default function myApp() {
   app.use(express.json());
   app.use(cookieParser());
   app.use(cors());
+
+  app.use(contentValidator);
 
   const swaggerDocument = YAML.load("./swagger.yml");
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));

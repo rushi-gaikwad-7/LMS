@@ -2,7 +2,11 @@ openapi: 3.0.3
 info:
   title: LMS - API 1.0.0
   description: |-
-    This is a sample Library Management System based on the LMS API 1.0.0
+    LMS is a library management system that is designed to manage all the functions of a library. It helps librarian to maintain the database of new books and the books that are borrowed by members.
+    This system completely automates all your library’s activities. The best way to maintain, organize, and handle countless books systematically is to implement a library management system.
+
+    A library management system is used to maintain library records. It tracks the records, how many books are issued, or how many books have been returned, etc.
+    You can find books in an instant, issue books quickly, and manage all the data efficiently using this lms. The purpose of a library management system is to provide instant and accurate data regarding any type of book, saving a lot of time and effort.
   version: 1.0.11
 servers:
   - url: http://localhost:8080
@@ -10,11 +14,11 @@ servers:
 # BOOKS API'S
 tags:
   - name: GET BOOKS
-    description: FETCH BOOKS DATA
+    description: FETCH BOOKS BY SEARCH OR ID AND GET ALL BOOKS 
   - name: ADMIN
     description: ADD NEW BOOK OR UPDATE EXIESTING BOOK AND GET ALL MEMBERS DETAILS
   - name: MEMBER
-    description: LOAN BOOK OR GET LOANED BOOKS DATA
+    description: LOAN BOOK OR GET HISTORY OF LOANED BOOKS
   - name: AUTHENTICATION
     description: LOGIN OR REGISTER NEW MEMBER
 paths:
@@ -23,7 +27,7 @@ paths:
       tags:
         - GET BOOKS
       summary: Returns all books.
-      description: A list of all books that present in the library
+      description: A list of all books that present in the library will be returned in the form of array of object.
       responses:
         "200":
           description: Success Response
@@ -33,17 +37,19 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/books"
+        "500":
+          description: something went wrong                  
 
   /api/v1/books/{book_id}:
     get:
       tags:
         - GET BOOKS
-      summary: Returns Requested Single Book
-      description: Find The Requested Book By Bookid
+      summary: Fetch Requested Single Book
+      description: Return the single book  in the form of array of object.
       parameters:
         - in: path
           name: book_id
-          description: any text results found,then return results
+          description: Enter book_id to fetch that book.
           required: true
           schema:
             type: string
@@ -65,12 +71,12 @@ paths:
     get:
       tags:
         - GET BOOKS
-      summary: Returns All Search Results Books
-      description: Find The Requested Books By Any Text
+      summary: Get books by search query.
+      description: Returns all  books matched to the search query in the form of array of object.
       parameters:
         - name: query
           in: query
-          description: any text results found,then return results
+          description: Enter your search query here
           required: true
           schema:
           type: string
@@ -84,51 +90,47 @@ paths:
                 items:
                   $ref: "#/components/schemas/books"
         "404":
-          description: PAGE NOT FOUND
+          description: no search result
         "500":
-          description: INTERNAL SERVER ERROR
+          description: something went wrong
 
   /api/v1/admin/addnewbook:
     post:
       tags:
         - ADMIN
       summary: Add New Book To The Library
-      description: A Successl request will add new book to the library
+      description: Return status success if book is added to the library or return error if failed to add. 
       parameters:
         - in: body
           name: user
-          description: New Book Will Be Added
-          schema:
-            type: object
-            required:
-              - bookId
-              - name
-              - author
-              - category
-              - quantity
-              - rating
-              - published_date
-              - pages
-              - availabilty
-          properties:
-            bookId:
-              type: integer
-            name:
-              type: string
-            author:
-              type: number
-            category:
-              type: string
-            quantity:
-              type: string
-            rating:
-              type: number
-            published_date:
-              type: date
-            pages:
-              type: string
-            availabilty:
-              type: boolean
+          description: put reuired fields of book
+          requestBody: 
+            content:
+              application/json:
+                 schema:
+                  $ref: '#components/schemas/add_book'
+      responses:
+        "200":
+          description: Success RESPONSE
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/books"
+        "404":
+          description: PAGE NOT FOUND
+        "500":
+          description: INTERNAL SERVER ERROR
+      security:
+        - access_token: []
+
+  /api/v1/admin/members:
+    get:
+      tags:
+        - ADMIN
+      summary: GET ALL MEMBERS  ACTIVE IN  LIBRARY
+      description: Returns list of members present in library in the form of array of object.
       responses:
         "200":
           description: Success RESPONSE
@@ -226,6 +228,90 @@ paths:
           description: PAGE NOT FOUND
         "500":
           description: INTERNAL SERVER ERROR
+      security:
+        - access_token: []
+
+  /api/v1/admin/updatebook/{book_id}:
+    put:
+      tags:
+        - ADMIN
+      summary: Update Book In The Library
+      description: A Successl request will update new book to the library
+      parameters:
+        - in: path
+          name: book_id
+        - in: body
+          name: user
+          description: The user to create.
+          schema:
+            type: object
+          properties:
+            bookId:
+              type: integer
+            name:
+              type: string
+            author:
+              type: number
+            category:
+              type: string
+            quantity:
+              type: string
+            rating:
+              type: number
+            published_date:
+              type: date
+            pages:
+              type: string
+            availabilty:
+              type: boolean
+      responses:
+        "200":
+          description: Success RESPONSE
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/books"
+        "404":
+          description: PAGE NOT FOUND
+        "500":
+          description: INTERNAL SERVER ERROR
+      security:
+        - access_token: []
+
+  /api/v1/member/books:
+    get:
+      tags:
+        - MEMBER
+      summary: get all loanded books from the library
+      description: User Will Purchase A Book
+      parameters:
+        - in: path
+          name: book_id
+          description: Purchasing A Book
+          schema:
+            type: object
+            required:
+              - book_id
+          properties:
+            book_id:
+              type: string
+      responses:
+        "200":
+          description: Success RESPONSE
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/books"
+        "404":
+          description: PAGE NOT FOUND
+        "500":
+          description: INTERNAL SERVER ERROR
+      security:
+        - access_token: []
 
   /api/v1/auth/register:
     post:
@@ -262,7 +348,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/books"
+                  $ref: "#/components/schemas/member"
         "404":
           description: PAGE NOT FOUND
         "500":
@@ -281,7 +367,7 @@ paths:
           schema:
             type: object
             required:
-              - username
+              - email
               - password
           properties:
             username:
@@ -297,7 +383,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/books"
+                  $ref: "#/components/schemas/member"
         "404":
           description: PAGE NOT FOUND
         "500":
@@ -350,21 +436,48 @@ components:
         created_at: 2022-12-07T16:08:09.755Z
         updated_at: 2022-12-07T16:08:09.755Z
 
-    users:
+    addbook:
+      type: object
+      properties:
+        title:
+          type: string
+        author:
+          type: string
+        category:
+          type: string
+        publish_year:
+          type: integer
+        rating:
+          type: integer
+        language:
+          type: string
+        pages:
+          type: integer
+        cover:
+          type: string
+
+      example:
+        title: last game
+        author: rakshat
+        category: novel
+        publish_year: 1998,
+        rating: 8
+        language: english
+        pages: 130
+        cover: https://m.media-amazon.com/images/I/51L57joruVL.jpg
+
+    member:
       type: object
       required:
       properties:
-        username:
+        name:
           type: string
         password:
           type: string
-        role:
+        email:
           type: string
-        joining_date:
-          type: date
 
       example:
-        username: "Hritik"
-        password: "Roshan"
-        role: "user"
-        joining_date: "2021-02-22"
+        name: "Hritik"
+        password: "Roshan123"
+        email: "rushi@gmail.com"

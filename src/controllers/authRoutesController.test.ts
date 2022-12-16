@@ -138,7 +138,7 @@ describe("test for login user route", (): void => {
       .send({ email: "email@gmail.com", password: "string" });
     expect(response.body).toEqual({
       data: [],
-      message: "Logged in successfully 😊 👌",
+      message: "Logged in successfully",
       status: "success",
       statusCode: 200,
     });

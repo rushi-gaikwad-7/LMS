@@ -6,8 +6,8 @@ const errorHandler = (error, req, res, next) => {
     if (error instanceof errorClass_1.OperationalError) {
         return res.status(error.statusCode || 500).json({
             status: "error",
-            statusCode: error.statusCode,
-            message: error.message || "Something went wrong",
+            statusCode: error.statusCode || 500,
+            message: error.message || "something went wrong",
         });
     }
 };
