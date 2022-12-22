@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.randomString = void 0;
 const crypto_1 = __importDefault(require("crypto"));
 const randomString = async () => {
-    const random = await crypto_1.default.randomBytes(3).toString("hex");
+    const random = crypto_1.default.randomBytes(3).toString("hex");
     return random;
 };
 exports.randomString = randomString;
